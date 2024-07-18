@@ -2,6 +2,8 @@ use std::fs;
 use std::error::Error;
 use json;
 
+//use base64::prelude::*;
+
 /*
 use aes::Aes128;
 use ccm::{
@@ -22,12 +24,17 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Parse JSON test data
     let res = json::parse(message.as_str()).unwrap();
     
-    println!("iv           = {}", res["body"]["iv"]);
+    println!("iv           = {}", res["body"]["iv"].as_str().unwrap());
     println!("enc_userid   = {}", res["body"]["enc_userid"]);
     println!("tag_userid   = {}", res["body"]["tag_userid"]);
     println!("userid       = {}", res["body"]["userid"]);
     println!("enc_password = {}", res["body"]["enc_password"]);
     println!("tag_password = {}", res["body"]["tag_password"]);
+    
+    /*
+    let iv = BASE64_STANDARD.decode(res["body"]["iv"].as_str().unwrap()).unwrap_or_default();
+    println!("==> iv           = {:?}", iv);
+    */
 
     // Untested example not compiling. 
     // error[E0283]: type annotations needed for `&GenericArray<u8, N>`
