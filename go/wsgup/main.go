@@ -1,19 +1,24 @@
 package main
 
 import (
-  "fmt"
-  "os"
-  "encoding/json"
-  "time"
-  "strconv"
-  "encoding/hex"
+    "fmt"
+    "os"
+    "encoding/json"
+    "time"
+    "strconv"
+    "encoding/hex"
+    "github.com/pschlump/AesCCM"
+	"crypto/aes"
 )
 
+const TagLength = 16
+const NonceLength = 12
+
 func check(e error) {
-  if e != nil {
-    fmt.Println(e.Error())
-    panic(e)
-  }
+    if e != nil {
+        fmt.Println(e.Error())
+        panic(e)
+    }
 }
 
 func main() {
@@ -33,6 +38,7 @@ func main() {
 
     fmt.Printf("OTP    : %06d\n", (uint)(registration["otp"].(float64)))
     fmt.Printf("TransID: %s\n", registration["transid"].(string))
+    */
 
     // Read test data from file
     testData, err := os.ReadFile("../../shared/testdata.json")
@@ -45,6 +51,7 @@ func main() {
     
     body := res["body"].(map[string]interface{})
     
+    /*
     fmt.Printf("iv           = %s\n", body["iv"].(string));
     fmt.Printf("enc_userid   = %s\n", body["enc_userid"].(string));
     fmt.Printf("tag_userid   = %s\n", body["tag_userid"].(string));
@@ -77,6 +84,37 @@ func main() {
     key, err := hex.DecodeString(keyHex)
 	check(err)
     
-    fmt.Println(keyHex)
-    fmt.Println(key)
+    // Prepare to decrypt user ID and password
+    aes, err := aes.NewCipher(key[:])
+    check(err)
+    
+    cipher, err := aesccm.NewCCM(aes, TagLength, NonceLength)
+    check(err)
+    
+    nonce := []byte(body["iv"].(string))
+    
+    // Decrypt user ID
+    encUserId := body["enc_userid"].(string)
+    tagUserId := body["tag_userid"].(string)
+    userIdTagHex := fmt.Sprintf("%s%s", encUserId, tagUserId)
+    userIdTagBin, err := hex.DecodeString(userIdTagHex)
+    check(err)
+    
+    userId, err := cipher.Open(nil, nonce, userIdTagBin, nil)
+    check(err)
+    
+    fmt.Printf("User ID  = %s\n", userId)
+    
+    // Decrypt password
+    encPassword := body["enc_password"].(string)
+    tagPassword := body["tag_password"].(string)
+    passwordTagHex := fmt.Sprintf("%s%s", encPassword, tagPassword)
+    passwordTagBin, err := hex.DecodeString(passwordTagHex)
+    check(err)
+    
+    password, err := cipher.Open(nil, nonce, passwordTagBin, nil)
+    check(err)
+    
+    fmt.Printf("Password = %s\n", password)
+    
 }
