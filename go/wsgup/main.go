@@ -4,6 +4,9 @@ import (
   "fmt"
   "os"
   "encoding/json"
+  "time"
+  "strconv"
+  "encoding/hex"
 )
 
 func check(e error) {
@@ -22,7 +25,7 @@ func main() {
     check(err)
 
     date := registration["date"].(map[string]interface{})
-    
+    /*
     fmt.Printf("Date   : %02d-%02d-%04d\n", 
         (uint)(date["day"].(float64)), 
         (uint)(date["month"].(float64)),
@@ -48,4 +51,32 @@ func main() {
     fmt.Printf("userid       = %s\n", body["userid"].(string));
     fmt.Printf("enc_password = %s\n", body["enc_password"].(string));
     fmt.Printf("tag_password = %s\n", body["tag_password"].(string));
+    */
+    
+    // Build the decryption key
+    /*
+    now := time.Now().Local()
+    today := now
+    */
+    month := time.Month((int)(date["month"].(float64)))
+    today := time.Date(
+        (int)(date["year"].(float64)), 
+        month,
+        (int)(date["day"].(float64)), 
+        0, 0, 0, 0, time.Local)
+    
+    dateStr, err := strconv.Atoi(fmt.Sprintf("%d%02d", today.Day(), today.Month()))
+    check(err)
+    dateHex := fmt.Sprintf("%03x", dateStr)
+    
+    otp := (int) (registration["otp"].(float64))
+    otpHex := fmt.Sprintf("%05x", otp)
+    transId := registration["transid"].(string)
+    keyHex := fmt.Sprintf("%s%s%s", dateHex, transId, otpHex)
+    
+    key, err := hex.DecodeString(keyHex)
+	check(err)
+    
+    fmt.Println(keyHex)
+    fmt.Println(key)
 }
