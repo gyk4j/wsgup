@@ -75,13 +75,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     
     let key = Aes128Ccm::generate_key(&mut OsRng);
     let cipher = Aes128Ccm::new(&key);    
-    let nonce = GenericArray::from_slice(b"unique nonce"); // 12-bytes; unique per message
-    let plaintext = b"test message";
+    let nonce: &GenericArray<u8, U12> = GenericArray::from_slice(b"unique nonce");
+    let plaintext = b"plaintext message";
     let ciphertext = cipher.encrypt(nonce, &plaintext[..]).unwrap();
-    let plaintext = cipher.decrypt(nonce, &ciphertext[..]).unwrap();
-    //assert_eq!(&plaintext, b"plaintext message");
+    let decrypted = cipher.decrypt(nonce, &ciphertext[..]).unwrap();
+    assert_eq!(&decrypted, b"plaintext message");
     
-    println!("Plaintext = {}", str::from_utf8(&plaintext).unwrap());
+    println!("Decrypted = {}", str::from_utf8(&decrypted).unwrap());
     
     Ok(())
 }
