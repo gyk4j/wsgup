@@ -1,0 +1,22 @@
+{
+  "name": "wsgup",
+  "version": "1.0.0",
+  "description": "JavaScript re-implementation of zerotypic's wasg-register.py",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gyk4j/wsgup.git"
+  },
+  "keywords": [
+    "wireless@sg"
+  ],
+  "author": "gyk4j",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/gyk4j/wsgup/issues"
+  },
+  "homepage": "https://github.com/gyk4j/wsgup#readme"
+}
