@@ -1,0 +1,12 @@
+requires 'Data::Dumper', '2.05'; # 2.05 or newer
+requires 'File::Slurp', '0.01'; # 0.01 or newer
+requires 'JSON', '1.0'; # 1.0 or newer
+requires 'CryptX', '0.003'; # 0.003 or newer
+
+
+# Phase specific dependencies
+# on 'configure' => sub { requires 'name', '1.0'; }
+# on 'build' => sub { requires 'name', '1.0'; }
+# on 'test' => sub { requires 'name', '1.0'; }
+# on 'runtime' => sub { requires 'name', '1.0'; }
+# on 'develop' => sub { requires 'name', '1.0'; }
