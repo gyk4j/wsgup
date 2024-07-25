@@ -27,4 +27,5 @@ rust/wsgup/*.lock
 
 # Shared files (not added to repository)
 # E.g. sample data used for local testing.
-shared/**
+shared/*.json
+
