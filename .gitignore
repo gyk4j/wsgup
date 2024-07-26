@@ -29,3 +29,7 @@ rust/wsgup/*.lock
 # E.g. sample data used for local testing.
 shared/*.json
 
+# C
+c/wsgup/build/**
+
+
