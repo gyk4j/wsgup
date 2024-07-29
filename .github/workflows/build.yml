@@ -30,9 +30,7 @@ jobs:
         env:
           cache-name: cache-cjson
         with:
-          path: |
-            ${{ github.workspace }}/cjson/cJSON.c
-            ${{ github.workspace }}/cjson/cJSON.h
+          path: /tmp/cjson
           key: ${{ runner.os }}-build-${{ env.cache-name }}
         
       - if: ${{ steps.cache-cjson.outputs.cache-hit != 'true' }}
@@ -41,14 +39,14 @@ jobs:
         with:
           github-server-url: 'https://github.com'
           repository: 'DaveGamble/cJSON'
-          path: 'cjson'
+          path: '/tmp/cjson'
           sparse-checkout: |
             cJSON.c
             cJSON.h
         continue-on-error: false
       
       - name: Check dependencies
-        run: tree .
+        run: tree /tmp/cjson
         
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,14 +57,14 @@ jobs:
           cd c/wsgup
           rm -rf src/cjson
           mkdir src/cjson
-          cp $GITHUB_WORKSPACE/cjson/cJSON.c src/cjson
+          cp /tmp/cjson/cJSON.c src/cjson
           rm -rf include/cjson
           mkdir include/cjson
-          cp $GITHUB_WORKSPACE/cjson/cJSON.h include/cjson
+          cp /tmp/cjson/cJSON.h include/cjson
           mkdir build
           cd build
           cmake ..
-          make
+          cmake build .
           cd $GITHUB_WORKSPACE
         env:
           Configuration: ${{ matrix.configuration }}
