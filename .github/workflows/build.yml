@@ -39,14 +39,16 @@ jobs:
         with:
           github-server-url: 'https://github.com'
           repository: 'DaveGamble/cJSON'
-          path: '/tmp/cjson'
           sparse-checkout: |
             cJSON.c
             cJSON.h
         continue-on-error: false
       
       - name: Check dependencies
-        run: tree /tmp/cjson
+        run: |
+          mkdir /tmp/cjson
+          cp cJSON.* /tmp/cjson
+          tree /tmp/cjson
         
       - name: Checkout
         uses: actions/checkout@v4
