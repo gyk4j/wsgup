@@ -54,8 +54,10 @@ jobs:
       - name: Build C
         run: |
           cd c/wsgup
+          rm -rf src/cjson
           mkdir src/cjson
           cp $GITHUB_WORKSPACE/cjson/cJSON.c src/cjson
+          rm -rf include/cjson
           mkdir include/cjson
           cp $GITHUB_WORKSPACE/cjson/cJSON.h include/cjson
           mkdir build
