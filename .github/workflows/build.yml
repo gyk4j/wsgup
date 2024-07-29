@@ -1,0 +1,82 @@
+name: CI build
+
+on:
+  workflow_dispatch:
+  # push:
+    # branches: [ "main" ]
+  # pull_request:
+    # branches: [ "main" ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        configuration: [Release]
+    runs-on: ubuntu-latest
+    env:
+      Configuration: Release
+    
+    steps:
+      - name: Print Info
+        id: print-info
+        run: |
+          pwd
+          echo $GITHUB_WORKSPACE
+          ls -la
+      
+      - name: Cache cjson
+        id: cache-cjson
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-cjson
+        with:
+          path: |
+            ${{ github.workspace }}/cjson/cJSON.c
+            ${{ github.workspace }}/cjson/cJSON.h
+        key: ${{ runner.os }}-build-${{ env.cache-name }}
+        
+      - if: ${{ steps.cache-cjson.outputs.cache-hit != 'true' }}
+        name: Download cJSON
+        uses: actions/checkout@v4
+        with:
+          github-server-url: 'https://github.com'
+          repository: 'DaveGamble/cJSON'
+          path: 'cjson'
+          sparse-checkout: |
+            cJSON.c
+            cJSON.h
+        continue-on-error: false
+        # run: echo Downloading cJSON...
+        
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Build C
+        run: |
+          cd c/wsgup
+          mkdir src/cjson
+          cp $GITHUB_WORKSPACE/cjson/cJSON.c src/cjson
+          mkdir include/cjson
+          cp $GITHUB_WORKSPACE/cjson/cJSON.h include/cjson
+          mkdir build
+          cd build
+          cmake ..
+          make
+          cd $GITHUB_WORKSPACE
+        env:
+          Configuration: ${{ matrix.configuration }}
+      
+      - name: Prepare upload artifact
+        run: |
+          mkdir -p /tmp/upload
+          echo "test" > /tmp/upload/test.txt
+          cp $GITHUB_WORKSPACE/c/wsgup/build/wsgup /tmp/upload
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wreck
+          path: /tmp/upload
+          if-no-files-found: error
+          retention-days: 1
+    
