@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include "cjson/cJSON.h"
+#include "openssl/aesccm.h"
 #include "main.h"
-#include "cJSON.h"
-#include "aesccm.h"
 
 int main(char* argc, char** argv){
     // register is a keyword in C. So we append a "_json" suffix.

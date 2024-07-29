@@ -10,15 +10,7 @@ MESSAGE (STATUS "Found? ${OPENSSL_FOUND}")
 MESSAGE (STATUS "Includes: ${OPENSSL_INCLUDE_DIR}")
 MESSAGE (STATUS "Crypto library: ${OPENSSL_CRYPTO_LIBRARY}")
 
-# build dependencies into libraries
-add_library(aesccm lib/openssl/aesccm.c)
-target_include_directories(aesccm PUBLIC include lib/openssl)
-target_link_libraries(aesccm OpenSSL::Crypto)
-
-add_library(cjson lib/cjson/cJSON.c)
-target_include_directories(cjson PUBLIC include lib/cjson)
-
-add_executable(wsgup src/main.c)
-target_link_libraries(wsgup aesccm cjson)
-
-
+file(GLOB_RECURSE SOURCE_FILES src/*.c)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+target_include_directories(${PROJECT_NAME} PUBLIC include)
+target_link_libraries(${PROJECT_NAME} OpenSSL::Crypto)
