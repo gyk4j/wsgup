@@ -1,3 +1,5 @@
+[![CI build](https://github.com/gyk4j/wsgup/actions/workflows/build.yml/badge.svg)](https://github.com/gyk4j/wsgup/actions/workflows/build.yml)
+
 # wsgup
 *wsgup* (pronounced "what's up") is a bundle of command line console programs
 for testing Wireless@SG credential decryption and recovery upon account 
