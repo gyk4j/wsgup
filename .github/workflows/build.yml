@@ -68,6 +68,7 @@ jobs:
           cmake ..
           cmake build .
           cd $GITHUB_WORKSPACE
+          tree .
         env:
           Configuration: ${{ matrix.configuration }}
       
