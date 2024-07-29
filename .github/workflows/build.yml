@@ -46,7 +46,9 @@ jobs:
             cJSON.c
             cJSON.h
         continue-on-error: false
-        # run: echo Downloading cJSON...
+      
+      - name: Check dependencies
+        run: tree .
         
       - name: Checkout
         uses: actions/checkout@v4
