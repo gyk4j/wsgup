@@ -55,7 +55,6 @@ jobs:
         
       - name: Build C
         run: |
-          tree .
           cd c/wsgup
           rm -rf src/cjson
           mkdir src/cjson
@@ -63,12 +62,9 @@ jobs:
           rm -rf include/cjson
           mkdir include/cjson
           cp /tmp/cjson/cJSON.h include/cjson
-          mkdir build
-          cd build
-          cmake ..
-          cmake build .
-          cd $GITHUB_WORKSPACE
-          tree .
+          cmake -B build .
+          cmake --build build
+          cd $GITHUB_WORKSPACE/c/wsgup
         env:
           Configuration: ${{ matrix.configuration }}
       
