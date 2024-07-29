@@ -53,6 +53,7 @@ jobs:
         
       - name: Build C
         run: |
+          tree .
           cd c/wsgup
           rm -rf src/cjson
           mkdir src/cjson
