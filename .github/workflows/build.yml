@@ -58,7 +58,7 @@ jobs:
           cmake -B build .
           cmake --build build
           mkdir -p /tmp/upload/c
-          cp build/wsgup /tmp/upload/c/wsgup
+          cp build/wsgup /tmp/upload/c
         env:
           Configuration: ${{ matrix.configuration }}
           
@@ -67,8 +67,15 @@ jobs:
           cd $GITHUB_WORKSPACE/csharp/wsgup
           dotnet build -c Release
           mkdir -p /tmp/upload/csharp
-          cp bin/Release/netcoreapp3.0/wsgup.dll /tmp/upload/csharp/wsgup.dll 
-          cp bin/Release/netcoreapp3.0/wsgup /tmp/upload/csharp/wsgup
+          cp bin/Release/netcoreapp3.0/wsgup.dll /tmp/upload/csharp 
+          cp bin/Release/netcoreapp3.0/wsgup /tmp/upload/csharp
+          
+      - name: "Build Go"
+        run: |
+          cd $GITHUB_WORKSPACE/go/wsgup
+          go build
+          mkdir -p /tmp/upload/go
+          cp wsgup /tmp/upload/go
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
