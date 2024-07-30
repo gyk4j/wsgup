@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <openssl/evp.h>
 #include <openssl/err.h>
-#include "openssl/aesccm.h"
+#include "aesccm.h"
 
 void handleErrors(void)
 {

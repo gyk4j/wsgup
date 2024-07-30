@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include "cjson/cJSON.h"
-#include "openssl/aesccm.h"
+#include "cJSON.h"
+#include "aesccm.h"
 #include "main.h"
 
 int main(char* argc, char** argv){
