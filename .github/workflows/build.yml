@@ -17,12 +17,9 @@ jobs:
       Configuration: Release
     
     steps:
-      - name: Print Info
-        id: print-info
-        run: |
-          pwd
-          echo $GITHUB_WORKSPACE
-          ls -la
+      - name: Prepare upload artifact
+        id: prepare-upload-artifact
+        run: mkdir -p /tmp/upload
       
       - name: Cache cjson
         id: cache-cjson
@@ -44,31 +41,31 @@ jobs:
             cJSON.h
         continue-on-error: false
       
-      - name: Check dependencies
+      - if: ${{ steps.cache-cjson.outputs.cache-hit != 'true' }}
+        name: Check dependencies
         run: |
           mkdir /tmp/cjson
           cp cJSON.* /tmp/cjson
-          tree /tmp/cjson
         
       - name: Checkout
         uses: actions/checkout@v4
         
       - name: Build C
         run: |
-          cd c/wsgup
+          cd $GITHUB_WORKSPACE/c/wsgup
           cp /tmp/cjson/cJSON.c src/
           cp /tmp/cjson/cJSON.h include/
           cmake -B build .
           cmake --build build
-          cd $GITHUB_WORKSPACE/c/wsgup
+          cp build/wsgup /tmp/upload/wsgup-c
         env:
           Configuration: ${{ matrix.configuration }}
-      
-      - name: Prepare upload artifact
+          
+      - name: "Build C#"
         run: |
-          mkdir -p /tmp/upload
-          echo "test" > /tmp/upload/test.txt
-          cp $GITHUB_WORKSPACE/c/wsgup/build/wsgup /tmp/upload
+          cd $GITHUB_WORKSPACE/csharp/wsgup
+          dotnet build -c Release
+          cp bin/Release/netcoreapp3.0/wsgup.exe /tmp/upload/wsgup-csharp.exe 
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
