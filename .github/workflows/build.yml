@@ -97,6 +97,13 @@ jobs:
           mkdir -p /tmp/upload/php
           cp index.php /tmp/upload/php
           
+      - name: "Build Python"
+        run: |
+          cd $GITHUB_WORKSPACE/python/wsgup
+          mkdir -p /tmp/upload/python
+          cp main.py /tmp/upload/python
+          cp requirements.txt /tmp/upload/python
+          
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
