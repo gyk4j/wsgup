@@ -110,10 +110,17 @@ jobs:
           mkdir -p /tmp/upload/ruby
           cp main.rb /tmp/upload/ruby
           
+      - name: "Build Rust"
+        run: |
+          cd $GITHUB_WORKSPACE/rust/wsgup
+          mkdir -p /tmp/upload/rust
+          cargo build --release
+          cp target/release/wsgup /tmp/upload/rust
+          
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: wreck
+          name: wreck-${{ github.sha }}
           path: /tmp/upload
           if-no-files-found: error
           retention-days: 1
