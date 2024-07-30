@@ -104,6 +104,12 @@ jobs:
           cp main.py /tmp/upload/python
           cp requirements.txt /tmp/upload/python
           
+      - name: "Build Ruby"
+        run: |
+          cd $GITHUB_WORKSPACE/ruby/wsgup
+          mkdir -p /tmp/upload/ruby
+          cp main.rb /tmp/upload/ruby
+          
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
