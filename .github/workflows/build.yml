@@ -84,6 +84,13 @@ jobs:
           cp app.js /tmp/upload/js
           cp package.json /tmp/upload/js
           
+      - name: "Build Perl"
+        run: |
+          cd $GITHUB_WORKSPACE/perl/wsgup
+          mkdir -p /tmp/upload/perl
+          cp main.pl /tmp/upload/perl
+          cp cpanfile /tmp/upload/perl
+          
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
