@@ -91,6 +91,12 @@ jobs:
           cp main.pl /tmp/upload/perl
           cp cpanfile /tmp/upload/perl
           
+      - name: "Build PHP"
+        run: |
+          cd $GITHUB_WORKSPACE/php/wsgup
+          mkdir -p /tmp/upload/php
+          cp index.php /tmp/upload/php
+          
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
