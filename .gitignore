@@ -79,3 +79,12 @@ bld/
 msbuild.log
 msbuild.err
 msbuild.wrn
+
+# Java and Gradle
+*.jar
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
