@@ -2,10 +2,10 @@ name: CI build
 
 on:
   workflow_dispatch:
-  # push:
-    # branches: [ "main" ]
-  # pull_request:
-    # branches: [ "main" ]
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -57,7 +57,8 @@ jobs:
           cp /tmp/cjson/cJSON.h include/
           cmake -B build .
           cmake --build build
-          cp build/wsgup /tmp/upload/wsgup-c
+          mkdir -p /tmp/upload/c
+          cp build/wsgup /tmp/upload/c/wsgup
         env:
           Configuration: ${{ matrix.configuration }}
           
@@ -65,7 +66,9 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/csharp/wsgup
           dotnet build -c Release
-          cp bin/Release/netcoreapp3.0/wsgup.exe /tmp/upload/wsgup-csharp.exe 
+          mkdir -p /tmp/upload/csharp
+          cp bin/Release/netcoreapp3.0/wsgup.dll /tmp/upload/csharp/wsgup.dll 
+          cp bin/Release/netcoreapp3.0/wsgup /tmp/upload/csharp/wsgup
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
