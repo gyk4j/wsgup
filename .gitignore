@@ -31,6 +31,8 @@ shared/*.json
 
 # C
 c/wsgup/build/**
+c/wsgup/include/cJSON.h
+c/wsgup/src/cJSON.c
 
 # dotnet core C#
 
