@@ -77,6 +77,13 @@ jobs:
           mkdir -p /tmp/upload/go
           cp wsgup /tmp/upload/go
           
+      - name: "Build JavaScript/Node.js"
+        run: |
+          cd $GITHUB_WORKSPACE/js/wsgup
+          mkdir -p /tmp/upload/js
+          cp app.js /tmp/upload/js
+          cp package.json /tmp/upload/js
+          
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
