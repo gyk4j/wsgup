@@ -56,12 +56,8 @@ jobs:
       - name: Build C
         run: |
           cd c/wsgup
-          rm -rf src/cjson
-          mkdir src/cjson
-          cp /tmp/cjson/cJSON.c src/cjson
-          rm -rf include/cjson
-          mkdir include/cjson
-          cp /tmp/cjson/cJSON.h include/cjson
+          cp /tmp/cjson/cJSON.c src/
+          cp /tmp/cjson/cJSON.h include/
           cmake -B build .
           cmake --build build
           cd $GITHUB_WORKSPACE/c/wsgup
