@@ -73,7 +73,7 @@ jobs:
       - name: "Build Go"
         run: |
           cd $GITHUB_WORKSPACE/go/wsgup
-          go build
+          go build -ldflags "-s -w"
           mkdir -p /tmp/upload/go
           cp wsgup /tmp/upload/go
           
