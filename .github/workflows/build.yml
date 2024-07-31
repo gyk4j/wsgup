@@ -80,6 +80,7 @@ jobs:
       - name: "Build Java"
         run: |
           cd $GITHUB_WORKSPACE/java/wsgup
+          chmod a+x gradlew
           ./gradlew
           mkdir -p /tmp/upload/java
           unzip app/build/distributions/app.zip -d /tmp/upload/java
