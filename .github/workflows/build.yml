@@ -78,11 +78,20 @@ jobs:
           mkdir -p /tmp/upload/go
           cp wsgup /tmp/upload/go
           
+      - name: "Cache Gradle 8.9 wrapper"
+        id: cache-gradlew
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-gradlew-v8.9
+        with:
+          path: $HOME/.gradle/wrapper/dists
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          
       - name: "Build Java"
         run: |
           cd $GITHUB_WORKSPACE/java/wsgup
           chmod a+x gradlew
-          ./gradlew --no-daemon build
+          ./gradlew build --no-daemon --console plain
           mkdir -p /tmp/upload/java
           unzip app/build/distributions/app.zip -d /tmp/upload/java
           
