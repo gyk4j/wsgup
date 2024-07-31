@@ -81,7 +81,6 @@ msbuild.err
 msbuild.wrn
 
 # Java and Gradle
-*.jar
 
 # Ignore Gradle project-specific cache directory
 .gradle
