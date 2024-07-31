@@ -84,14 +84,20 @@ jobs:
         env:
           cache-name: cache-gradlew-v8.9
         with:
-          path: $HOME/.gradle/wrapper/dists
+          path: ~/.gradle/wrapper/dists
           key: ${{ runner.os }}-build-${{ env.cache-name }}
+          
+      - name: "Print environment"
+        run: |
+          echo HOME = $HOME
+          echo HOME = ~
+          tree ~/.gradle
           
       - name: "Build Java"
         run: |
           cd $GITHUB_WORKSPACE/java/wsgup
           chmod a+x gradlew
-          ./gradlew build --no-daemon --console plain
+          ./gradlew build --no-daemon --console=plain
           mkdir -p /tmp/upload/java
           unzip app/build/distributions/app.zip -d /tmp/upload/java
           
