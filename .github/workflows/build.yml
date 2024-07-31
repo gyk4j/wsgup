@@ -84,14 +84,8 @@ jobs:
         env:
           cache-name: cache-gradlew-v8.9
         with:
-          path: ~/.gradle/wrapper/dists
+          path: $HOME/.gradle
           key: ${{ runner.os }}-build-${{ env.cache-name }}
-          
-      - name: "Print environment"
-        run: |
-          echo HOME = $HOME
-          echo HOME = ~
-          tree ~/.gradle
           
       - name: "Build Java"
         run: |
@@ -100,6 +94,12 @@ jobs:
           ./gradlew build --no-daemon --console=plain
           mkdir -p /tmp/upload/java
           unzip app/build/distributions/app.zip -d /tmp/upload/java
+      
+      - name: "Print post-build environment"
+        run: |
+          echo HOME = $HOME
+          echo HOME = ~
+          tree $HOME/.gradle
           
       - name: "Build JavaScript/Node.js"
         run: |
