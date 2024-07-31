@@ -66,6 +66,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/csharp/wsgup
           dotnet build -c Release
+          dotnet build-server shutdown
           mkdir -p /tmp/upload/csharp
           cp bin/Release/netcoreapp3.0/wsgup.dll /tmp/upload/csharp 
           cp bin/Release/netcoreapp3.0/wsgup /tmp/upload/csharp
