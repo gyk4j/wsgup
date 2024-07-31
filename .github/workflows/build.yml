@@ -77,6 +77,13 @@ jobs:
           mkdir -p /tmp/upload/go
           cp wsgup /tmp/upload/go
           
+      - name: "Build Java"
+        run: |
+          cd $GITHUB_WORKSPACE/java/wsgup
+          ./gradlew
+          mkdir -p /tmp/upload/java
+          unzip app/build/distributions/app.zip -d /tmp/upload/java
+          
       - name: "Build JavaScript/Node.js"
         run: |
           cd $GITHUB_WORKSPACE/js/wsgup
