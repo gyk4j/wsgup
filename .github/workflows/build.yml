@@ -81,7 +81,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/java/wsgup
           chmod a+x gradlew
-          ./gradlew build
+          ./gradlew --no-daemon build
           mkdir -p /tmp/upload/java
           unzip app/build/distributions/app.zip -d /tmp/upload/java
           
