@@ -135,6 +135,15 @@ jobs:
           cargo build --release
           cp target/release/wsgup /tmp/upload/rust
           
+      - name: "Build Visual Basic.NET"
+        run: |
+          cd $GITHUB_WORKSPACE/vb/wsgup
+          dotnet build -c Release
+          dotnet build-server shutdown
+          mkdir -p /tmp/upload/vb
+          cp bin/Release/netcoreapp3.0/wsgup.dll /tmp/upload/vb 
+          cp bin/Release/netcoreapp3.0/wsgup /tmp/upload/vb
+          
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
