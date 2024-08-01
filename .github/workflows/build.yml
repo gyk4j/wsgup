@@ -93,7 +93,7 @@ jobs:
           chmod a+x gradlew
           ./gradlew build --no-daemon --console=plain
           mkdir -p /tmp/upload/java
-          unzip app/build/distributions/app.zip -d /tmp/upload/java
+          tar -xvzf app/build/distributions/app.tar.gz -C /tmp/upload/java
           
       - name: "Build JavaScript/Node.js"
         run: |
@@ -101,6 +101,14 @@ jobs:
           mkdir -p /tmp/upload/js
           cp app.js /tmp/upload/js
           cp package.json /tmp/upload/js
+          
+      - name: "Build Kotlin"
+        run: |
+          cd $GITHUB_WORKSPACE/kotlin/wsgup
+          chmod a+x gradlew
+          ./gradlew build --no-daemon --console=plain
+          mkdir -p /tmp/upload/kotlin
+          tar -xvzf wsgup/build/distributions/wsgup.tar.gz -C /tmp/upload/kotlin
           
       - name: "Build Perl"
         run: |
