@@ -96,10 +96,12 @@ jobs:
       - name: "Build Dart"
         run: |
           cd $GITHUB_WORKSPACE/dart/wsgup
-          dart pub get
-          dart compile exe bin/wsgup.dart
           mkdir -p /tmp/upload/dart
-          cp bin/wsgup /tmp/upload/dart
+          dart pub get
+          dart compile exe bin/wsgup.dart -o /tmp/dart/wsgup
+          dart compile aot-snapshot bin/wsgup.dart -o /tmp/dart/wsgup.aot
+          dart compile jit-snapshot bin/wsgup.dart -o /tmp/dart/wsgup.jit
+          dart compile js bin/wsgup.dart -o /tmp/dart/wsgup.js
           
       - name: "Build Go"
         run: |
