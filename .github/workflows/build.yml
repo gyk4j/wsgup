@@ -30,7 +30,7 @@ jobs:
         name: "Download Dart"
         run: |
           mkdir /tmp/dart
-          wget -P /tmp/dart https://storage.googleapis.com/dart-archive/channels/stable/release/latest/linux_packages/dart_3.4.4-1_amd64.deb
+          wget -nv -P /tmp/dart https://storage.googleapis.com/dart-archive/channels/stable/release/latest/linux_packages/dart_3.4.4-1_amd64.deb
           tree /tmp/dart
         
       - name: "Install Dart"
@@ -98,10 +98,10 @@ jobs:
           cd $GITHUB_WORKSPACE/dart/wsgup
           mkdir -p /tmp/upload/dart
           dart pub get
-          dart compile exe bin/wsgup.dart -o /tmp/dart/wsgup
-          dart compile aot-snapshot bin/wsgup.dart -o /tmp/dart/wsgup.aot
-          dart compile jit-snapshot bin/wsgup.dart -o /tmp/dart/wsgup.jit
-          dart compile js bin/wsgup.dart -o /tmp/dart/wsgup.js
+          dart compile exe bin/wsgup.dart -o /tmp/upload/dart/wsgup
+          dart compile aot-snapshot bin/wsgup.dart -o /tmp/upload/dart/wsgup.aot
+          dart compile jit-snapshot bin/wsgup.dart -o /tmp/upload/dart/wsgup.jit
+          dart compile js bin/wsgup.dart -o /tmp/upload/dart/wsgup.js
           
       - name: "Build Go"
         run: |
