@@ -31,17 +31,12 @@ jobs:
         run: |
           mkdir /tmp/dart
           wget -nv -P /tmp/dart https://storage.googleapis.com/dart-archive/channels/stable/release/latest/linux_packages/dart_3.4.4-1_amd64.deb
-          tree /tmp/dart
         
       - name: "Install Dart"
         id: install-dart
         run: |
           sudo dpkg -i /tmp/dart/dart_3.4.4-1_amd64.deb
           dart --version
-      
-      - name: Prepare upload artifact
-        id: prepare-upload-artifact
-        run: mkdir -p /tmp/upload
       
       - name: Cache cjson
         id: cache-cjson
@@ -71,6 +66,16 @@ jobs:
         
       - name: Checkout
         uses: actions/checkout@v4
+        
+      - name: Prepare upload artifact
+        id: prepare-upload-artifact
+        run: |
+          cd $GITHUB_WORKSPACE/shared
+          mv register.json.tmpl register.json
+          mv testdata.json.tmpl testdata.json
+          mkdir -p /tmp/upload/shared
+          cp register.json /tmp/upload/shared
+          cp testdata.json /tmp/upload/shared
         
       - name: Build C
         run: |
@@ -125,7 +130,7 @@ jobs:
           chmod a+x gradlew
           ./gradlew build --no-daemon --console=plain
           mkdir -p /tmp/upload/java
-          tar -xvf app/build/distributions/app.tar -C /tmp/upload/java
+          tar -xvf app/build/distributions/app.tar -C /tmp/upload/java --strip-components=1
           
       - name: "Build JavaScript/Node.js"
         run: |
@@ -140,7 +145,7 @@ jobs:
           chmod a+x gradlew
           ./gradlew build --no-daemon --console=plain
           mkdir -p /tmp/upload/kotlin
-          tar -xvf wsgup/build/distributions/wsgup.tar -C /tmp/upload/kotlin
+          tar -xvf wsgup/build/distributions/wsgup.tar -C /tmp/upload/kotlin --strip-components=1
           
       - name: "Build Perl"
         run: |

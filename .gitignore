@@ -92,3 +92,8 @@ build
 # Created by `dart pub`
 .dart_tool/
 !dart/*/bin
+*.aot
+*.jit
+dart/**/*.js
+dart/**/*.js.map
+dart/**/*.deps
