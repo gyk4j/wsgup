@@ -158,6 +158,13 @@ jobs:
           cargo build --release
           cp target/release/wsgup /tmp/upload/rust
           
+      - name: "Build Swift"
+        run: |
+          cd $GITHUB_WORKSPACE/swift/wsgup
+          mkdir -p /tmp/upload/swift
+          swift build -c release
+          cp .build/x86_64-unknown-linux-gnu/release/wsgup /tmp/upload/swift
+          
       - name: "Build Visual Basic.NET"
         run: |
           cd $GITHUB_WORKSPACE/vb/wsgup

@@ -101,3 +101,13 @@ dart/**/*.deps
 # Vagrant
 .vagrant
 swift-5.10.1-RELEASE-ubuntu22.04.tar.gz
+
+# Swift
+.DS_Store
+.build
+Packages
+xcuserdata/
+DerivedData/
+.swiftpm/configuration/registries.json
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.netrc
