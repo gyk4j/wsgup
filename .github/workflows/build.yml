@@ -9,9 +9,6 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        configuration: [Release]
     runs-on: ubuntu-latest
     env:
       Configuration: Release
@@ -37,32 +34,6 @@ jobs:
         run: |
           sudo dpkg -i /tmp/dart/dart_3.4.4-1_amd64.deb
           dart --version
-      
-      - name: Cache cjson
-        id: cache-cjson
-        uses: actions/cache@v4
-        env:
-          cache-name: cache-cjson
-        with:
-          path: /tmp/cjson
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
-        
-      - if: ${{ steps.cache-cjson.outputs.cache-hit != 'true' }}
-        name: Download cJSON
-        uses: actions/checkout@v4
-        with:
-          github-server-url: 'https://github.com'
-          repository: 'DaveGamble/cJSON'
-          sparse-checkout: |
-            cJSON.c
-            cJSON.h
-        continue-on-error: false
-      
-      - if: ${{ steps.cache-cjson.outputs.cache-hit != 'true' }}
-        name: Check dependencies
-        run: |
-          mkdir /tmp/cjson
-          cp cJSON.* /tmp/cjson
         
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,8 +51,6 @@ jobs:
       - name: Build C
         run: |
           cd $GITHUB_WORKSPACE/c/wsgup
-          cp /tmp/cjson/cJSON.c src/
-          cp /tmp/cjson/cJSON.h include/
           cmake -B build .
           cmake --build build
           mkdir -p /tmp/upload/c
