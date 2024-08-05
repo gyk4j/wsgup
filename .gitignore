@@ -97,3 +97,6 @@ build
 dart/**/*.js
 dart/**/*.js.map
 dart/**/*.deps
+
+# Vagrant
+.vagrant
