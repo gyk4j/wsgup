@@ -72,13 +72,30 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
     config.vm.provision "shell", inline: <<-SHELL
       apt-get update
-  #   apt-get install -y apache2
-      cd ~
-      echo Downloading Swift 5.10.1...
-      curl -O https://download.swift.org/swift-5.10.1-release/ubuntu2204/swift-5.10.1-RELEASE/swift-5.10.1-RELEASE-ubuntu22.04.tar.gz
-      echo Unpacking Swift tar ball...
-      tar xzf swift-5.10.1-RELEASE-ubuntu22.04.tar.gz
-      export PATH=~/swift-5.10.1-RELEASE-ubuntu22.04/usr/bin:"${PATH}"
-      swift --version
+      apt-get install -y \
+        tree \
+        binutils \
+        git \
+        gnupg2 \
+        libc6-dev \
+        libcurl4-openssl-dev \
+        libedit2 \
+        libgcc-11-dev \
+        libpython3-dev \
+        libsqlite3-0 \
+        libstdc++-11-dev \
+        libxml2-dev \
+        libz3-dev \
+        pkg-config \
+        python3-lldb-13 \
+        tzdata \
+        unzip \
+        zlib1g-dev
+      cd /vagrant
+      curl -s -O https://download.swift.org/swift-5.10.1-release/ubuntu2204/swift-5.10.1-RELEASE/swift-5.10.1-RELEASE-ubuntu22.04.tar.gz
+      tar xzf swift-5.10.1-RELEASE-ubuntu22.04.tar.gz -C /opt
+      mv /opt/swift-5.10.1-RELEASE-ubuntu22.04 /opt/swift
+      echo export PATH=/opt/swift/usr/bin:"${PATH}" >> /etc/profile
+      /opt/swift/usr/bin/swift --version
     SHELL
 end

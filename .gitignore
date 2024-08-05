@@ -100,3 +100,4 @@ dart/**/*.deps
 
 # Vagrant
 .vagrant
+swift-5.10.1-RELEASE-ubuntu22.04.tar.gz
