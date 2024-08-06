@@ -108,7 +108,8 @@ jobs:
           chmod a+x gradlew
           ./gradlew build --no-daemon --console=plain
           mkdir -p /tmp/upload/java
-          tar -xvf app/build/distributions/app.tar -C /tmp/upload/java --strip-components=1
+          cp app/build/libs/*.jar /tmp/upload/java
+        # tar -xvf app/build/distributions/app.tar -C /tmp/upload/java --strip-components=1
           
       - name: "Build JavaScript/Node.js"
         run: |
@@ -123,7 +124,8 @@ jobs:
           chmod a+x gradlew
           ./gradlew build --no-daemon --console=plain
           mkdir -p /tmp/upload/kotlin
-          tar -xvf wsgup/build/distributions/wsgup.tar -C /tmp/upload/kotlin --strip-components=1
+          cp wsgup/build/libs/*.jar /tmp/upload/kotlin
+        # tar -xvf wsgup/build/distributions/wsgup.tar -C /tmp/upload/kotlin --strip-components=1
           
       - name: "Build Perl"
         run: |
