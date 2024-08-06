@@ -108,7 +108,7 @@ jobs:
           chmod a+x gradlew
           ./gradlew build --no-daemon --console=plain
           mkdir -p /tmp/upload/java
-          cp app/build/libs/*.jar /tmp/upload/java
+          cp wsgup/build/libs/*.jar /tmp/upload/java
         # tar -xvf app/build/distributions/app.tar -C /tmp/upload/java --strip-components=1
           
       - name: "Build JavaScript/Node.js"
