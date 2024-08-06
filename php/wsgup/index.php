@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 const TAG_LENGTH = 16;
 const NONCE_LENGTH = 12;
