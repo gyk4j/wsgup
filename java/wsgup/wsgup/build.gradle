@@ -39,3 +39,12 @@ application {
     // Define the main class for the application.
     mainClass = 'com.github.gyk4j.wsgup.App'
 }
+
+jar {
+    manifest {
+        attributes (
+            'Main-Class': 'com.github.gyk4j.wsgup.App',
+            'Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' ')
+        )
+    }
+}

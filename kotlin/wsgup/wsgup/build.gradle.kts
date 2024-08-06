@@ -47,6 +47,15 @@ application {
     mainClass = "com.github.gyk4j.wsgup.AppKt"
 }
 
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "com.github.gyk4j.wsgup.AppKt"
+        attributes["Class-Path"] = configurations.runtimeClasspath.get()
+            .onEach { println("add from dependencies: ${it.name}") }
+            .map { it.name }.joinToString(" ")
+    }
+}
+
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
