@@ -11,7 +11,7 @@ Imports System.Text
 
 Module Program
     Sub Main(args As String())
-        Dim register As String = File.ReadAllText("..\..\shared\register.json")
+        Dim register As String = File.ReadAllText(Path.Combine("..", "..", "shared", "register.json"))
         
         Dim registration As JsonDocument = JsonDocument.Parse(register)     
         ' date is a keyword. So we append a suffix.
@@ -26,7 +26,7 @@ Module Program
         ' Console.WriteLine(String.Format("TransID: {0}",
             ' registration.RootElement.GetProperty("transid").GetString()))
             
-        Dim testData As String = File.ReadAllText("..\..\shared\testdata.json")
+        Dim testData As String = File.ReadAllText(Path.Combine("..", "..", "shared", "testdata.json"))
                 
         Dim res As JsonDocument = JsonDocument.Parse(testData)
         Dim body As JsonElement = res.RootElement.GetProperty("body")

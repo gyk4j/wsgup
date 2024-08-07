@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # Prerequisite
 # Install pycryptodome: python3 -m pip install -r requirements.txt

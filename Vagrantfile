@@ -92,10 +92,43 @@ Vagrant.configure("2") do |config|
         unzip \
         zlib1g-dev
       cd /vagrant
-      curl -s -O https://download.swift.org/swift-5.10.1-release/ubuntu2204/swift-5.10.1-RELEASE/swift-5.10.1-RELEASE-ubuntu22.04.tar.gz
-      tar xzf swift-5.10.1-RELEASE-ubuntu22.04.tar.gz -C /opt
-      mv /opt/swift-5.10.1-RELEASE-ubuntu22.04 /opt/swift
-      echo export PATH=/opt/swift/usr/bin:"${PATH}" >> /etc/profile
+      
+      # Download if required
+      if [ ! -f "swift-5.10.1-RELEASE-ubuntu22.04.tar.gz" ]; then
+        curl -sSL -O https://download.swift.org/swift-5.10.1-release/ubuntu2204/swift-5.10.1-RELEASE/swift-5.10.1-RELEASE-ubuntu22.04.tar.gz
+      fi
+      
+      # Install if required
+      if [ ! -d "/opt/swift" ]; then
+        tar xzf swift-5.10.1-RELEASE-ubuntu22.04.tar.gz -C /opt
+        mv /opt/swift-5.10.1-RELEASE-ubuntu22.04 /opt/swift
+        echo export PATH=/opt/swift/usr/bin:"${PATH}" >> /etc/profile
+      fi
+      
       /opt/swift/usr/bin/swift --version
+      
+      apt-get install -y build-essential gcc g++ make cmake
+      
+      apt-get install -y perl python3 ruby-full python3-pip
+      
+      apt-get install -y openssl libssl-dev
+      
+      apt-get install -y php php-cli
+      
+      # Install .NET Core
+      if [ ! -f dotnet-sdk-3.0.103-linux-x64.tar.gz ]; then
+        # .NET Core 3.0 requires SSL 1.x.
+        wget -q "http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb"
+        dpkg -i libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb    
+        
+        wget -q https://download.visualstudio.microsoft.com/download/pr/43f3a3bd-3df2-41e6-beca-3ec4952ca6c4/30fe7779249607d1bb3bb4b20d61a479/dotnet-sdk-3.0.103-linux-x64.tar.gz -O dotnet-sdk-3.0.103-linux-x64.tar.gz
+        mkdir -p /opt/dotnet
+        tar zxf dotnet-sdk-3.0.103-linux-x64.tar.gz -C /opt/dotnet
+        echo export DOTNET_ROOT=/opt/dotnet >> /etc/profile
+        echo export PATH="${PATH}":/opt/dotnet:/opt/dotnet/tools >> /etc/profile
+      fi
+      
+      apt-get install -y openjdk-11-jre
+      apt install -y nodejs npm
     SHELL
 end

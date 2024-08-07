@@ -13,7 +13,7 @@ namespace wsgup
         {
             try
             {
-                string register = File.ReadAllText(@"..\..\shared\register.json");
+                string register = File.ReadAllText(Path.Combine("..", "..", "shared", "register.json"));
                 
                 JsonDocument registration = JsonDocument.Parse(register);
                 JsonElement date = registration.RootElement.GetProperty("date");
@@ -29,7 +29,7 @@ namespace wsgup
                     registration.RootElement.GetProperty("transid").GetString()));
                 */
                 
-                string testData = File.ReadAllText(@"..\..\shared\testdata.json");
+                string testData = File.ReadAllText(Path.Combine("..", "..", "shared", "testdata.json"));
                 
                 JsonDocument res = JsonDocument.Parse(testData);
                 JsonElement body = res.RootElement.GetProperty("body");

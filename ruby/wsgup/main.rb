@@ -1,3 +1,8 @@
+#!/usr/bin/ruby
+
+require 'rubygems'
+require 'bundler/setup'
+
 require 'json'
 require 'openssl'
 

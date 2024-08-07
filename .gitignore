@@ -101,6 +101,9 @@ dart/**/*.deps
 # Vagrant
 .vagrant
 swift-5.10.1-RELEASE-ubuntu22.04.tar.gz
+packages-microsoft-prod.deb
+dotnet-sdk-3.0.103-linux-x64.tar.gz
+libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb
 
 # Swift
 .DS_Store
