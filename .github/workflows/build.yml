@@ -167,7 +167,7 @@ jobs:
           mkdir -p /tmp/upload/bin/rust
           cp ../README.md /tmp/upload/bin/rust
           cargo build --release
-          cp target/release/* /tmp/upload/bin/rust
+          cp -r target/release/* /tmp/upload/bin/rust
           
       - name: "Build Swift"
         run: |
@@ -175,7 +175,7 @@ jobs:
           mkdir -p /tmp/upload/bin/swift
           cp ../README.md /tmp/upload/bin/swift
           swift build -c release
-          cp .build/x86_64-unknown-linux-gnu/release/* /tmp/upload/bin/swift
+          cp -r .build/x86_64-unknown-linux-gnu/release/* /tmp/upload/bin/swift
           
       - name: "Build Visual Basic.NET"
         run: |
