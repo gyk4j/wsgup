@@ -83,6 +83,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/dart/wsgup
           mkdir -p /tmp/upload/bin/dart
+          cp ../README.md /tmp/upload/bin/dart
           dart pub get
           dart compile exe bin/wsgup.dart -o /tmp/upload/bin/dart/wsgup
           dart compile aot-snapshot bin/wsgup.dart -o /tmp/upload/bin/dart/wsgup.aot
@@ -167,7 +168,7 @@ jobs:
           mkdir -p /tmp/upload/bin/rust
           cp ../README.md /tmp/upload/bin/rust
           cargo build --release
-          cp -r target/release/* /tmp/upload/bin/rust
+          cp target/release/wsgup /tmp/upload/bin/rust
           
       - name: "Build Swift"
         run: |
@@ -175,7 +176,7 @@ jobs:
           mkdir -p /tmp/upload/bin/swift
           cp ../README.md /tmp/upload/bin/swift
           swift build -c release
-          cp -r .build/x86_64-unknown-linux-gnu/release/* /tmp/upload/bin/swift
+          cp .build/x86_64-unknown-linux-gnu/release/wsgup /tmp/upload/bin/swift
           
       - name: "Build Visual Basic.NET"
         run: |
