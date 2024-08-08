@@ -72,6 +72,8 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
     config.vm.provision "shell", inline: <<-SHELL
       apt-get update
+      
+      # Required by Swift
       apt-get install -y \
         tree \
         binutils \
@@ -91,6 +93,7 @@ Vagrant.configure("2") do |config|
         tzdata \
         unzip \
         zlib1g-dev
+        
       cd /tmp
       
       # Download if required
@@ -141,5 +144,24 @@ Vagrant.configure("2") do |config|
       
       apt-get install -y openjdk-11-jre
       apt-get install -y nodejs npm
+      
+      # Install Dart SDK
+      apt-get install apt-transport-https
+      wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub \
+        | gpg  --dearmor -o /usr/share/keyrings/dart.gpg
+      echo 'deb [signed-by=/usr/share/keyrings/dart.gpg arch=amd64] https://storage.googleapis.com/download.dartlang.org/linux/debian stable main' \
+        | tee /etc/apt/sources.list.d/dart_stable.list
+      apt-get update && apt-get install -y dart
+      dart --disable-analytics
+      dart -v
+      
+      # Install Go
+      apt-get install -y golang-go
+      go version
+      
+      # Install Rust
+      apt-get install -y rustc cargo
+      rustc -V
+      cargo -V
     SHELL
 end
