@@ -44,12 +44,9 @@ jobs:
           mkdir -p /tmp/upload
           cp LICENSE /tmp/upload
           cp README.md /tmp/upload
-          cd $GITHUB_WORKSPACE/shared
-          mv register.json.tmpl register.json
-          mv testdata.json.tmpl testdata.json
+          cd $GITHUB_WORKSPACE/shared          
           mkdir -p /tmp/upload/shared
-          cp register.json /tmp/upload/shared
-          cp testdata.json /tmp/upload/shared
+          cp * /tmp/upload/shared
           mkdir -p /tmp/upload/bin
           
       - name: "Cache CMake"
