@@ -91,7 +91,7 @@ Vagrant.configure("2") do |config|
         tzdata \
         unzip \
         zlib1g-dev
-      cd /vagrant
+      cd /tmp
       
       # Download if required
       if [ ! -f "swift-5.10.1-RELEASE-ubuntu22.04.tar.gz" ]; then
@@ -115,20 +115,31 @@ Vagrant.configure("2") do |config|
       
       apt-get install -y php php-cli
       
-      # Install .NET Core
-      if [ ! -f dotnet-sdk-3.0.103-linux-x64.tar.gz ]; then
+      # Download SSL 1.x (required by .NET Core 3.0)
+      if [ ! -f "libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb" ]; then
         # .NET Core 3.0 requires SSL 1.x.
         wget -q "http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb"
-        dpkg -i libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb    
-        
-        wget -q https://download.visualstudio.microsoft.com/download/pr/43f3a3bd-3df2-41e6-beca-3ec4952ca6c4/30fe7779249607d1bb3bb4b20d61a479/dotnet-sdk-3.0.103-linux-x64.tar.gz -O dotnet-sdk-3.0.103-linux-x64.tar.gz
+      fi
+      
+      dpkg -i libssl1.0.0_1.0.2n-1ubuntu5_amd64.deb    
+      
+      # Download .NET Core 3.0
+      if [ ! -f "dotnet-sdk-3.0.103-linux-x64.tar.gz" ]; then
+        wget -q "https://download.visualstudio.microsoft.com/download/pr/43f3a3bd-3df2-41e6-beca-3ec4952ca6c4/30fe7779249607d1bb3bb4b20d61a479/dotnet-sdk-3.0.103-linux-x64.tar.gz" -O dotnet-sdk-3.0.103-linux-x64.tar.gz
+      fi
+      
+      # Install .NET Core 3.0
+      if [ ! -d "/opt/dotnet" ]; then
         mkdir -p /opt/dotnet
         tar zxf dotnet-sdk-3.0.103-linux-x64.tar.gz -C /opt/dotnet
         echo export DOTNET_ROOT=/opt/dotnet >> /etc/profile
-        echo export PATH="${PATH}":/opt/dotnet:/opt/dotnet/tools >> /etc/profile
+        echo export PATH=$PATH:/opt/dotnet:/opt/dotnet/tools >> /etc/profile
       fi
       
+      /opt/dotnet/dotnet --list-sdks
+      /opt/dotnet/dotnet --list-runtimes
+      
       apt-get install -y openjdk-11-jre
-      apt install -y nodejs npm
+      apt-get install -y nodejs npm
     SHELL
 end
