@@ -47,6 +47,7 @@ jobs:
           mkdir -p /tmp/upload/shared
           cp register.json /tmp/upload/shared
           cp testdata.json /tmp/upload/shared
+          mkdir -p /tmp/upload/bin
           
       - name: "Cache CMake"
         id: cache-cmake
@@ -62,8 +63,8 @@ jobs:
           cd $GITHUB_WORKSPACE/c/wsgup
           cmake -B build .
           cmake --build build
-          mkdir -p /tmp/upload/c
-          cp build/wsgup /tmp/upload/c
+          mkdir -p /tmp/upload/bin/c
+          cp build/wsgup /tmp/upload/bin/c
         env:
           Configuration: ${{ matrix.configuration }}
           
@@ -72,26 +73,25 @@ jobs:
           cd $GITHUB_WORKSPACE/csharp/wsgup
           dotnet build -c Release
           dotnet build-server shutdown
-          mkdir -p /tmp/upload/csharp
-          cp bin/Release/netcoreapp3.0/wsgup.dll /tmp/upload/csharp 
-          cp bin/Release/netcoreapp3.0/wsgup /tmp/upload/csharp
+          mkdir -p /tmp/upload/bin/csharp
+          cp bin/Release/netcoreapp3.0/* /tmp/upload/bin/csharp
           
       - name: "Build Dart"
         run: |
           cd $GITHUB_WORKSPACE/dart/wsgup
-          mkdir -p /tmp/upload/dart
+          mkdir -p /tmp/upload/bin/dart
           dart pub get
-          dart compile exe bin/wsgup.dart -o /tmp/upload/dart/wsgup
-          dart compile aot-snapshot bin/wsgup.dart -o /tmp/upload/dart/wsgup.aot
-          dart compile jit-snapshot bin/wsgup.dart -o /tmp/upload/dart/wsgup.jit
-          dart compile js bin/wsgup.dart -o /tmp/upload/dart/wsgup.js
+          dart compile exe bin/wsgup.dart -o /tmp/upload/bin/dart/wsgup
+          dart compile aot-snapshot bin/wsgup.dart -o /tmp/upload/bin/dart/wsgup.aot
+          dart compile jit-snapshot bin/wsgup.dart -o /tmp/upload/bin/dart/wsgup.jit
+          dart compile js bin/wsgup.dart -o /tmp/upload/bin/dart/wsgup.js
           
       - name: "Build Go"
         run: |
           cd $GITHUB_WORKSPACE/go/wsgup
           go build -ldflags "-s -w"
-          mkdir -p /tmp/upload/go
-          cp wsgup /tmp/upload/go
+          mkdir -p /tmp/upload/bin/go
+          cp wsgup /tmp/upload/bin/go
           
       - name: "Cache Gradle 8.9 wrapper"
         id: cache-gradlew
@@ -107,74 +107,74 @@ jobs:
           cd $GITHUB_WORKSPACE/java/wsgup
           chmod a+x gradlew
           ./gradlew build --no-daemon --console=plain
-          mkdir -p /tmp/upload/java
-          cp wsgup/build/libs/*.jar /tmp/upload/java
-        # tar -xvf app/build/distributions/app.tar -C /tmp/upload/java --strip-components=1
+          mkdir -p /tmp/upload/bin/java
+          cp wsgup/build/libs/*.jar /tmp/upload/bin/java
+        # tar -xvf app/build/distributions/app.tar -C /tmp/upload/bin/java --strip-components=1
           
       - name: "Build JavaScript/Node.js"
         run: |
           cd $GITHUB_WORKSPACE/js/wsgup
-          mkdir -p /tmp/upload/js
-          cp app.js /tmp/upload/js
-          cp package.json /tmp/upload/js
+          mkdir -p /tmp/upload/bin/js
+          cp app.js /tmp/upload/bin/js
+          cp package.json /tmp/upload/bin/js
           
       - name: "Build Kotlin"
         run: |
           cd $GITHUB_WORKSPACE/kotlin/wsgup
           chmod a+x gradlew
           ./gradlew build --no-daemon --console=plain
-          mkdir -p /tmp/upload/kotlin
-          cp wsgup/build/libs/*.jar /tmp/upload/kotlin
-        # tar -xvf wsgup/build/distributions/wsgup.tar -C /tmp/upload/kotlin --strip-components=1
+          mkdir -p /tmp/upload/bin/kotlin
+          cp wsgup/build/libs/*.jar /tmp/upload/bin/kotlin
+        # tar -xvf wsgup/build/distributions/wsgup.tar -C /tmp/upload/bin/kotlin --strip-components=1
           
       - name: "Build Perl"
         run: |
           cd $GITHUB_WORKSPACE/perl/wsgup
-          mkdir -p /tmp/upload/perl
-          cp main.pl /tmp/upload/perl
-          cp cpanfile /tmp/upload/perl
+          mkdir -p /tmp/upload/bin/perl
+          cp main.pl /tmp/upload/bin/perl
+          cp cpanfile /tmp/upload/bin/perl
           
       - name: "Build PHP"
         run: |
           cd $GITHUB_WORKSPACE/php/wsgup
-          mkdir -p /tmp/upload/php
-          cp index.php /tmp/upload/php
+          mkdir -p /tmp/upload/bin/php
+          cp index.php /tmp/upload/bin/php
           
       - name: "Build Python"
         run: |
           cd $GITHUB_WORKSPACE/python/wsgup
-          mkdir -p /tmp/upload/python
-          cp main.py /tmp/upload/python
-          cp requirements.txt /tmp/upload/python
+          mkdir -p /tmp/upload/bin/python
+          cp main.py /tmp/upload/bin/python
+          cp requirements.txt /tmp/upload/bin/python
           
       - name: "Build Ruby"
         run: |
           cd $GITHUB_WORKSPACE/ruby/wsgup
-          mkdir -p /tmp/upload/ruby
-          cp main.rb /tmp/upload/ruby
+          mkdir -p /tmp/upload/bin/ruby
+          cp main.rb /tmp/upload/bin/ruby
           
       - name: "Build Rust"
         run: |
           cd $GITHUB_WORKSPACE/rust/wsgup
-          mkdir -p /tmp/upload/rust
+          mkdir -p /tmp/upload/bin/rust
           cargo build --release
-          cp target/release/wsgup /tmp/upload/rust
+          cp target/release/wsgup /tmp/upload/bin/rust
           
       - name: "Build Swift"
         run: |
           cd $GITHUB_WORKSPACE/swift/wsgup
-          mkdir -p /tmp/upload/swift
+          mkdir -p /tmp/upload/bin/swift
           swift build -c release
-          cp .build/x86_64-unknown-linux-gnu/release/wsgup /tmp/upload/swift
+          cp .build/x86_64-unknown-linux-gnu/release/wsgup /tmp/upload/bin/swift
           
       - name: "Build Visual Basic.NET"
         run: |
           cd $GITHUB_WORKSPACE/vb/wsgup
           dotnet build -c Release
           dotnet build-server shutdown
-          mkdir -p /tmp/upload/vb
-          cp bin/Release/netcoreapp3.0/wsgup.dll /tmp/upload/vb 
-          cp bin/Release/netcoreapp3.0/wsgup /tmp/upload/vb
+          mkdir -p /tmp/upload/bin/vb
+          cp bin/Release/netcoreapp3.0/wsgup.dll /tmp/upload/bin/vb 
+          cp bin/Release/netcoreapp3.0/wsgup /tmp/upload/bin/vb
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
