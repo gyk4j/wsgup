@@ -1,24 +1,32 @@
 [![CI build](https://github.com/gyk4j/wsgup/actions/workflows/build.yml/badge.svg)](https://github.com/gyk4j/wsgup/actions/workflows/build.yml)
 
-# wsgup
+# wsgup: An Introduction
+
 *wsgup* (pronounced "what's up") is a bundle of command line console programs
 for testing Wireless@SG credential decryption and recovery upon account 
 registration as a user of the free public hotspot network. These programs are 
 functionally identical except rewritten in different programmming languages.
 
-These programs demonstrates file reading, JSON parsing and AES-CCM decryption in
-various programming languages as short programs in 100 to 200 lines each. The
-actual purpose is simply to explore the ease, challenges and differences in
-implementing an identical program in different programming languages. Whenever
-possible, I have tried to do a line-by-line porting to mostly keep these 
-implementations identical and easier for tracing and comparison, except when 
-the different language syntax or library APIs do not permit I may write with an 
-extra line or two with greater verbosity
+Each program demonstrates:
 
-As a matter of fact, it is the first time experience with writing a working
-program in [Go](https://go.dev), [Rust](https://www.rust-lang.org) and 
-[Ruby](https://www.ruby-lang.org). So I may miss out on language constructs
-or shorthands that could have kept the code more concise.
+- string manipulation (e.g. formatting, interpolation, concatenation)
+- file reading
+- JSON parsing
+- data encoding and conversion (binary, hex and UTF-8)
+- AES-CCM decryption
+
+They are available in various programming languages as short programs in 100 to 
+200 lines. Implementation languages include: C, C#, Dart, Go, Java, JavaScript 
+(Node.js), Kotlin, Perl, PHP, Python, Ruby, Rust, Swift and Visual Basic.NET.
+
+# Preface
+
+The purpose of *wsgup* is simply to explore the ease, challenges and 
+differences in implementing an identical program in different programming 
+languages. Whenever possible, I have tried to do a line-by-line porting to 
+mostly keep these implementations identical and easier for tracing and 
+comparison, except when the different language syntax or library APIs do not 
+permit I may write with an extra line or two with greater verbosity.
 
 This is treated as a personal hobby project to learn new programming languages. 
 
@@ -28,23 +36,27 @@ Thus, we should note the followings:
 > - Nothing should be assumed to be working or suitable for real-world 
 > production use
 > - I am not accepting pull requests to integrate any enhancements or bugfixes
+>
+> As a matter of fact, it is the first time experience with writing a working
+> program in [Go](https://go.dev), [Rust](https://www.rust-lang.org) and 
+> [Ruby](https://www.ruby-lang.org). So I may miss out on language constructs
+> or shorthands that could have kept the code more concise.
 
 # Background of Wireless@SG
 
-As a little background, Wireless@SG is a free nation-wide Wi-Fi hotspot network 
-in Singapore, enabling public access to Wi-Fi network since 2005. In recent 
-years (as of 2024), its popularity and usage have decreased due to lower prices 
-and higher mobile data quota provided by 4G LTE and 5G mobile phone 
-subscription plans.
+Wireless@SG is a free nation-wide Wi-Fi hotspot network in Singapore, offering 
+public access to Wi-Fi network since 2005. Users wanting to use this free Wi-Fi 
+hotspot network are required to register using their identity and mobile phone 
+number. This is done via the officially provided 
+[Wireless@SGx App][connect-wireless-sg]. 
 
-Users wanting to use this free Wi-Fi hotspot network are required to register
-using their identity and mobile phone number. This is done via the officially
-provided [Wireless@SGx App][connect-wireless-sg]. A (possibly cybersecurity
-professional) zerotypic has analyzed it including the network traffic from the 
-user registration API. He/she has also described his/her findings in a 
-[blog post][making-wireless-sgx-work-on-linux]. In it, he/she describes the 
-sequence of network requests, data sent/received, and the cryptographic 
-algorithm and settings.
+# wasg-register.py
+
+A (possibly cybersecurity professional) zerotypic has analyzed it including the 
+network traffic from the user registration API. He/she has also described 
+his/her findings in a [blog post][making-wireless-sgx-work-on-linux]. In it, 
+he/she describes the sequence of network requests, data sent/received, and the 
+cryptographic algorithm and settings.
 
 Based on the information provided in his blog post, and after studying his/her 
 [wasg-register.py][wasg-register] tool, a very small subset of codes relevant
@@ -78,31 +90,60 @@ credentials. Encryption done by the API in the backend is not covered.
 # What `wsgup` does not do
 
 Simplicity is the core tenet for these small console CLI programs. They are not
-designed to facilitate the entire user account registration process, only the
-decryption of generated credentials. 
+designed to facilitate the entire user account registration process; they only 
+simulate the decryption of generated credentials based on the cryptographic
+information known thus far. 
 
 # How does `wsgup` work?
 
 What these programs do is to simply read in test data saved in 2 JSON files:
-- shared/register.json
-- shared/testdata.json
 
-Their templates can be found in `shared` folder, and can be renamed and filled
-in appropriately.
+1. `shared/register.json`
+2. `shared/testdata.json`
 
-> [!IMPORTANT]
-> Users wishing to run `wsgup` have to intercept and capture their own test 
-> data using a Man-in-the-Middle HTTPS proxy, network sniffing tools, or
-> generate their own test data in AES-128 algorithm in CCM mode.
->
-> Based on test data in 2023. Encryption algorithm and settings may change 
-> anytime by Wireless@SG.
->
-> - Algorithm: **AES**
-> - Key size: **128 bits**
-> - Mode: **Counter with CBC-MAC (CCM)**
-> - Tag size: **16 bytes (128 bits)**
-> - Nonce: **12 bytes**
+These two required files are *NOT* available out-of-the-box.
+
+## Method 1: Use randomly-generated test data
+
+A Node.js-based tool is provided in `shared` folder which must be run to 
+generate these 2 files sample containing random test data.
+
+```
+$ cd shared
+$ ls
+README.md  main.js
+$ node main.js
+$ ls
+README.md  main.js  register.json  testdata.json
+$ cd ..
+```
+
+## Method 2: Capture and use real data
+
+You may also verify the programs against real-world data. For this, you have to 
+intercept and capture their own test data using a Man-in-the-Middle HTTPS 
+proxy or network sniffing tools like *Wireshark*.
+
+# Usage
+
+You can then invoke the various test programs. For example:
+
+```
+$ cd bin/c
+$ ./wsgup
+$ cd ../dart
+$ ./wsgup
+$ cd ../go
+$ ./wsgup
+$ cd ../rust
+$ ./wsgup
+```
+
+> [!NOTE]
+> Some of these programs require some installation of dependencies before use,
+> especially those in interpreted scripting languages.  
+> Read their respective *README.md* for specific instructions on how to install
+> their required libraries and components.
 
 [making-wireless-sgx-work-on-linux]: https://zerotypic.medium.com/making-wireless-sgx-work-on-linux-92216c66fdb7
 [wasg-register]: https://github.com/zerotypic/wasg-register
