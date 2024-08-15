@@ -187,7 +187,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: wreck-${{ runner.os }}-${{ github.sha }}
+          name: ${{ github.event.repository.name }}-${{ runner.os }}-${{ github.sha }}
           path: /tmp/upload
           if-no-files-found: error
           retention-days: 1
