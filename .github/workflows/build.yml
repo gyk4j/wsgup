@@ -74,7 +74,7 @@ jobs:
           dotnet build-server shutdown
           mkdir -p /tmp/upload/bin/csharp
           cp ../README.md /tmp/upload/bin/csharp
-          cp bin/Release/netcoreapp3.0/* /tmp/upload/bin/csharp
+          cp bin/Release/net6.0/* /tmp/upload/bin/csharp
           
       - name: "Build Dart"
         run: |
@@ -182,7 +182,7 @@ jobs:
           dotnet build-server shutdown
           mkdir -p /tmp/upload/bin/vb
           cp ../README.md /tmp/upload/bin/vb
-          cp bin/Release/netcoreapp3.0/* /tmp/upload/bin/vb 
+          cp bin/Release/net6.0/* /tmp/upload/bin/vb 
           
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
