@@ -33,7 +33,7 @@ jobs:
           Copy-Item "LICENSE" -Destination "$env:RUNNER_TEMP\upload"
           Copy-Item "README.md" -Destination "$env:RUNNER_TEMP\upload"
           New-Item -Path "$env:RUNNER_TEMP\upload" -Name "shared" -ItemType "directory"
-          Copy-Item -Path "$GITHUB_WORKSPACE\shared\*" -Destination "$env:RUNNER_TEMP\upload\shared"
+          Copy-Item -Path "$env:GITHUB_WORKSPACE\shared\*" -Destination "$env:RUNNER_TEMP\upload\shared"
           New-Item -Path "$env:RUNNER_TEMP\upload" -Name "bin" -ItemType "directory"
           
       - name: "Cache CMake"
@@ -47,7 +47,7 @@ jobs:
         
       - name: Build C
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\c\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\c\wsgup"
           Invoke-Expression -Command "cmake -B build ."
           Invoke-Expression -Command "cmake --build build"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "c" -ItemType "directory"
@@ -56,7 +56,7 @@ jobs:
           
       - name: "Build C#"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\csharp\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\csharp\wsgup"
           Invoke-Expression -Command "dotnet build -c Release"
           Invoke-Expression -Command "dotnet build-server shutdown"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "csharp" -ItemType "directory"
@@ -65,7 +65,7 @@ jobs:
           
       - name: "Build Dart"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\dart\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\dart\wsgup"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "dart" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\dart"
           Invoke-Expression -Command "dart pub get"
@@ -76,7 +76,7 @@ jobs:
           
       - name: "Build Go"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\go\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\go\wsgup"
           Invoke-Expression -Command 'go build -ldflags "-s -w"'
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "go" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\go" 
@@ -93,7 +93,7 @@ jobs:
           
       - name: "Build Java"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\java\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\java\wsgup"
           Invoke-Expression -Command ".\gradlew build --no-daemon --console=plain"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "java" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\java"
@@ -102,14 +102,14 @@ jobs:
           
       - name: "Build JavaScript/Node.js"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\js\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\js\wsgup"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "js" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\js"
           Copy-Item -Path "*" -Destination "$env:RUNNER_TEMP\upload\bin\js"
           
       - name: "Build Kotlin"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\kotlin\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\kotlin\wsgup"
           Invoke-Expression -Command ".\gradlew build --no-daemon --console=plain"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "kotlin" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\kotlin"
@@ -118,35 +118,35 @@ jobs:
           
       - name: "Build Perl"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\perl\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\perl\wsgup"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "perl" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\perl"
           Copy-Item -Path "*" -Destination "$env:RUNNER_TEMP\upload\bin\perl"
           
       - name: "Build PHP"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\php\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\php\wsgup"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "php" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\php"
           Copy-Item -Path "*" -Destination "$env:RUNNER_TEMP\upload\bin\php"
           
       - name: "Build Python"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\python\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\python\wsgup"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "python" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\python"
           Copy-Item -Path "*" -Destination "$env:RUNNER_TEMP\upload\bin\python"
           
       - name: "Build Ruby"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\ruby\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\ruby\wsgup"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "ruby" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\ruby"
           Copy-Item -Path "*" -Destination "$env:RUNNER_TEMP\upload\bin\ruby"
           
       - name: "Build Rust"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\rust\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\rust\wsgup"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "rust" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\rust"
           Invoke-Expression -Command "cargo build --release"
@@ -154,7 +154,7 @@ jobs:
           
       - name: "Build Swift"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\swift\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\swift\wsgup"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "swift" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\swift"
           Invoke-Expression -Command "swift build -c release"
@@ -162,7 +162,7 @@ jobs:
           
       - name: "Build Visual Basic.NET"
         run: |
-          Set-Location -Path "$GITHUB_WORKSPACE\vb\wsgup"
+          Set-Location -Path "$env:GITHUB_WORKSPACE\vb\wsgup"
           Invoke-Expression -Command "dotnet build -c Release"
           Invoke-Expression -Command "dotnet build-server shutdown"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "vb" -ItemType "directory"
