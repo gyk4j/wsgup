@@ -119,7 +119,7 @@ int main(char* argc, char** argv){
     assert((strlen(tag_userid) / 2) == TAG_LENGTH);
     
     size_t userid_len = strlen(enc_userid) / 2;
-    unsigned char userid[userid_len + 1];
+    unsigned char* userid = (unsigned char*) calloc(userid_len + 1, sizeof(char));
     memset(userid, 0, userid_len + 1);
     
     int userid_length = ccm_decrypt(
@@ -148,7 +148,7 @@ int main(char* argc, char** argv){
     assert((strlen(tag_password) / 2) == TAG_LENGTH);
     
     size_t password_len = strlen(enc_password) / 2;
-    unsigned char password[password_len + 1];
+    unsigned char* password = (unsigned char*) calloc(password_len + 1, sizeof(char));
     memset(password, 0, password_len + 1);
     
     int password_length = ccm_decrypt(
@@ -171,6 +171,8 @@ int main(char* argc, char** argv){
     int status = (userid_length == 0 || password_length == 0);
     
 end:
+    free(password);
+    free(userid);
     if(key != NULL)
         free(key);                  // malloc by hex_decode
     if(today != NULL)
@@ -195,7 +197,7 @@ unsigned char* read_file(const char* filename){
         long fsize = ftell(f);
         fseek(f, 0, SEEK_SET);  /* same as rewind(f); */
 
-        string = malloc(fsize + 1);
+        string = (unsigned char*) malloc(fsize + 1);
         fread(string, fsize, 1, f);
         fclose(f);
 
