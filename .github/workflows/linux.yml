@@ -1,4 +1,4 @@
-name: CI build
+name: Linux CI
 
 on:
   workflow_dispatch:
@@ -9,7 +9,11 @@ on:
 
 jobs:
   build:
+    name: Linux CI Build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
     env:
       Configuration: Release
     
