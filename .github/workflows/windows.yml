@@ -19,6 +19,7 @@ jobs:
         id: install-dart
         run: |
           Invoke-Expression -Command "choco install dart-sdk"
+          Update-SessionEnvironment
           Invoke-Expression -Command "dart --version"
         
       - name: Checkout
