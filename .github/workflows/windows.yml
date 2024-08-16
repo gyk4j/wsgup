@@ -18,7 +18,8 @@ jobs:
       - name: "Install Dart"
         id: install-dart
         run: |
-          Invoke-Expression -Command "choco install dart-sdk"
+          Invoke-Expression -Command "choco install dart-sdk -y --no-progress"
+          Import-Module "$env:ChocolateyInstall/helpers/chocolateyInstaller.psm1"
           Update-SessionEnvironment
           Invoke-Expression -Command "dart --version"
         
