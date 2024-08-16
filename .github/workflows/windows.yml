@@ -13,8 +13,30 @@ jobs:
     runs-on: windows-latest
     env:
       Configuration: release
+      AppDataTempPath: C:\Users\runneradmin\AppData\Local\Temp
+      SwiftCacheDir: swift-sdk
     
     steps:
+      # - name: "Cache Swift"
+        # id: cache-swift-sdk
+        # uses: actions/cache@v4
+        # env:
+          # cache-name: cache-swift-sdk
+        # with:
+          # path: ${{ env.AppDataTempPath }}\${{ env.SwiftCacheDir }}
+          # key: ${{ runner.os }}-build-${{ env.cache-name }}
+          
+      # - if: ${{ steps.cache-swift-sdk.outputs.cache-hit != 'true' }}
+        # name: "Download Swift"
+        # id: download-swift
+        # env:
+          # SwiftUrl: https://download.swift.org/swift-5.10.1-release/windows10/swift-5.10.1-RELEASE/swift-5.10.1-RELEASE-windows10.exe
+          # SwiftCacheFile: swift-5.10.1-RELEASE-windows10.exe
+        # run: |
+          # New-Item -Path "$env:AppDataTempPath" -Name "$env:SwiftCacheDir" -ItemType "directory"
+          # Invoke-WebRequest -Uri $env:SwiftUrl -outfile "$env:AppDataTempPath\$env:SwiftCacheDir\$env:SwiftCacheFile"
+          # Get-ChildItem "$env:AppDataTempPath\$env:SwiftCacheDir"
+          
       - name: "Cache Dart SDK"
         id: cache-dart-sdk
         uses: actions/cache@v4
@@ -162,14 +184,16 @@ jobs:
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\rust"
           Invoke-Expression -Command "cargo build --release"
           Copy-Item "target\release\wsgup.exe" -Destination "$env:RUNNER_TEMP\upload\bin\rust"
-          
+      
+      # Runner Windows image does not have Swift pre-installed.      
       - name: "Build Swift"
         run: |
           Set-Location -Path "$env:GITHUB_WORKSPACE\swift\wsgup"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "swift" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\swift"
-          Invoke-Expression -Command "swift build -c release"
-          Copy-Item ".build\x86_64-unknown-windows-msvc\release\wsgup.exe" -Destination "$env:RUNNER_TEMP\upload\bin\swift"
+          
+      # Invoke-Expression -Command "swift build -c release"
+      # Copy-Item ".build\x86_64-unknown-windows-msvc\release\wsgup.exe" -Destination "$env:RUNNER_TEMP\upload\bin\swift"
           
       - name: "Build Visual Basic.NET"
         run: |
