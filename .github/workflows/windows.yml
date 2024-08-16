@@ -68,6 +68,8 @@ jobs:
           Set-Location -Path "$env:GITHUB_WORKSPACE\dart\wsgup"
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "dart" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\dart"
+          Import-Module "$env:ChocolateyInstall/helpers/chocolateyInstaller.psm1"
+          Update-SessionEnvironment
           Invoke-Expression -Command "dart pub get"
           Invoke-Expression -Command "dart compile exe bin\wsgup.dart -o $env:RUNNER_TEMP\upload\bin\dart\wsgup.exe"
           Invoke-Expression -Command "dart compile aot-snapshot bin\wsgup.dart -o $env:RUNNER_TEMP\upload\bin\dart\wsgup.aot"
