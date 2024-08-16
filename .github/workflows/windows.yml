@@ -86,7 +86,7 @@ jobs:
         env:
           cache-name: cache-gradlew-v8.9
         with:
-          path: "C:\Users\runneradmin\.gradle"
+          path: C:\Users\runneradmin\.gradle
           key: ${{ runner.os }}-build-${{ env.cache-name }}
           
       - name: "Build Java"
