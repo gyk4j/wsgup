@@ -1,4 +1,5 @@
-[![CI build](https://github.com/gyk4j/wsgup/actions/workflows/build.yml/badge.svg)](https://github.com/gyk4j/wsgup/actions/workflows/build.yml)
+[![Linux CI](https://github.com/gyk4j/wsgup/actions/workflows/linux.yml/badge.svg)](https://github.com/gyk4j/wsgup/actions/workflows/linux.yml)
+[![Windows CI](https://github.com/gyk4j/wsgup/actions/workflows/windows.yml/badge.svg)](https://github.com/gyk4j/wsgup/actions/workflows/windows.yml)
 
 # wsgup: An Introduction
 
