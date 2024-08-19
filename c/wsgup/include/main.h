@@ -1,6 +1,10 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #define NONCE_LENGTH 12
 #define TAG_LENGTH 16
 
