@@ -124,7 +124,7 @@ int main(char* argc, char** argv){
     
     int userid_length = ccm_decrypt(
         enc_userid_bin,         // unsigned char *ciphertext,
-        strlen(enc_userid) / 2, // int ciphertext_len,
+        (int) strlen(enc_userid) / 2, // int ciphertext_len,
         NULL,                   // unsigned char *aad, 
         0,                      // int aad_len,
         tag_userid_bin,         // unsigned char *tag,
@@ -153,7 +153,7 @@ int main(char* argc, char** argv){
     
     int password_length = ccm_decrypt(
         enc_password_bin,           // unsigned char *ciphertext,
-        strlen(enc_password) / 2,   // int ciphertext_len,
+        (int) strlen(enc_password) / 2,   // int ciphertext_len,
         NULL,                       // unsigned char *aad, 
         0,                          // int aad_len,
         tag_password_bin,           // unsigned char *tag,
