@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.5.0)
 
 project(wsgup VERSION 0.0.1 LANGUAGES C)
-set_property(TARGET wsgup PROPERTY C_STANDARD 99)
 
 # set(OPENSSL_ROOT_DIR "/usr/lib")
 # set(OPENSSL_USE_STATIC_LIBS TRUE)
@@ -35,3 +34,5 @@ file(GLOB_RECURSE SOURCE_FILES src/*.c)
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_link_libraries(${PROJECT_NAME} OpenSSL::Crypto cJSON)
+
+set_property(TARGET ${PROJECT_NAME} PROPERTY C_STANDARD 99)
