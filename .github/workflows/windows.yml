@@ -87,6 +87,7 @@ jobs:
           New-Item -Path "$env:RUNNER_TEMP\upload\bin" -Name "c" -ItemType "directory"
           Copy-Item "..\README.md" -Destination "$env:RUNNER_TEMP\upload\bin\c" 
           Copy-Item "build\Release\wsgup.exe" -Destination "$env:RUNNER_TEMP\upload\bin\c"
+          Copy-Item -Path "C:\Program Files\OpenSSL\bin\*.dll" -Destination "$env:RUNNER_TEMP\upload\bin\c"
           
       - name: "Build C#"
         run: |
