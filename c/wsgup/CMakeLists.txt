@@ -1,6 +1,7 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.5.0)
 
 project(wsgup VERSION 0.0.1 LANGUAGES C)
+set_property(TARGET wsgup PROPERTY C_STANDARD 99)
 
 # set(OPENSSL_ROOT_DIR "/usr/lib")
 # set(OPENSSL_USE_STATIC_LIBS TRUE)
