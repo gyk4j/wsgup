@@ -11,7 +11,7 @@ int main(char* argc, char** argv){
     // register is a keyword in C. So we append a "_json" suffix.
     char* register_json = read_file("../../shared/register.json");
     if(register_json == NULL){
-        return -1; //goto end;
+        return -1;
     }
     
     //puts(register_json);
@@ -31,7 +31,7 @@ int main(char* argc, char** argv){
     // Read test data from file
     char* test_data_json = read_file("../../shared/testdata.json");
     if(test_data_json == NULL){
-        return -1; //goto end;
+        return -1;
     }
     //puts(test_data_json);
     
@@ -75,7 +75,7 @@ int main(char* argc, char** argv){
     size_t bytes = strftime(date_dec, 5, "%e%m", today);
     if(bytes == 0){
         fprintf(stderr, "date_dec buffer too small.\n");
-        return -1; //goto end;
+        return -1;
     }
     // atoi skips leading spaces (if day is less than 10)
     sprintf(date_hex, "%x", atoi(date_dec));
@@ -170,21 +170,13 @@ int main(char* argc, char** argv){
     
     int status = (userid_length == 0 || password_length == 0);
     
-end:
-    free(password);
-    free(userid);
-    if(key != NULL)
-        free(key);                  // malloc by hex_decode
-    if(today != NULL)
-        free(today);                // malloc by localtime
-    if(res != NULL)
-        cJSON_Delete(res);          // malloc by cJSON_Parse
-    if(registration != NULL)
-        cJSON_Delete(registration); // malloc by cJSON_Parse
-    if(test_data_json != NULL)
-        free(test_data_json);       // malloc by read_file
-    if(register_json != NULL)
-        free(register_json);        // malloc by read_file
+    free(password);             // calloc by main
+    free(userid);               // calloc by main
+    free(key);                  // malloc by hex_decode
+    cJSON_Delete(res);          // malloc by cJSON_Parse
+    cJSON_Delete(registration); // malloc by cJSON_Parse
+    free(test_data_json);       // malloc by read_file
+    free(register_json);        // malloc by read_file
     
     return status;
 }
